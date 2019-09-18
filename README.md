@@ -32,3 +32,43 @@ git add missed-file // missed-file 为遗漏提交文件
 git commit --amend --no-edit
 ````
 --no-edit 表示提交消息不会更改，在 git 上仅为一次提交
+
+### 3. 提交错误文件，回退到上一个 commit 版本，再 commit
+git reset
+删除指定的 commit
+```
+// 修改版本库，保留暂存区，保留工作区
+// 将版本库软回退1个版本，软回退表示将本地版本库的头指针全部重置到指定版本，且将这次提交之后的所有变更都移动到暂存区。
+git reset --soft HEAD~1
+
+// 修改版本库，修改暂存区，修改工作区
+//将版本库回退1个版本，不仅仅是将本地版本库的头指针全部重置到指定版本，也会重置暂存区，并且会将工作区代码也回退到这个版本
+git reset --hard HEAD~1
+// git版本回退，回退到特定的commit_id版本，可以通过git log查看提交历史，以便确定要回退到哪个版本(commit 之后的即为ID);
+git reset --hard commit_id 
+
+```
+git revert
+撤销某次操作，此次操作之前和之后的commit和history都会保留，并且把这次撤销
+
+作为一次最新的提交
+```
+// 撤销前一次 commit
+git revert HEAD
+// 撤销前前一次 commit
+git revert HEAD^
+// (比如：fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，撤销也会作为一次提交进行保存。
+git revert commit
+
+```
+git revert是提交一个新的版本，将需要revert的版本的内容再反向修改回去， 版本会递增，不影响之前提交的内容
+git revert 和 git reset 的区别
+
+git revert是用一次新的commit来回滚之前的commit，git reset是直接删除指定的commit。
+在回滚这一操作上看，效果差不多。但是在日后继续merge以前的老版本时有区别。因为git revert是用一次逆向的commit“中和”之前的提交，因此日后合并老的branch时，导致这部分改变不会再次出现，但是git reset是之间把某些commit在某个branch上删除，因而和老的branch再次merge时，这些被回滚的commit应该还会被引入。
+git reset 是把HEAD向后移动了一下，而git revert是HEAD继续前进，只是新的commit的内容和要revert的内容正好相反，能够抵消要被revert的内容。
+
+作者：前端瓶子君
+链接：https://juejin.im/post/5d5d61e96fb9a06ace5254bd
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
