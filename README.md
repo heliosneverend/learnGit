@@ -76,3 +76,4 @@ git reset 是把HEAD向后移动了一下，而git revert是HEAD继续前进，�
 查看远程分支 git branch -a
 切换分支  git checkout 分支名 (一般修改未提交则无法切换，大小写问题经常会有，可强制切换  git checkout 分支名 -f  非必须慎用)
 将本地分支推送到远程分支 git push <远程仓库> <本地分支>:<远程分支>
+git push origin Helios_t 将Helios_t分支推到远端
